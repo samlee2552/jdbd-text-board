@@ -1,5 +1,9 @@
+package com.sbs.example.demo.dto;
+
+import com.sbs.example.demo.util.Util;
+
 // DTO
-abstract class Dto {
+public abstract class Dto {
 	private int id;
 	private String regDate;
 
@@ -19,15 +23,15 @@ abstract class Dto {
 		this.regDate = regDate;
 	}
 
-	Dto() {
+	public Dto() {
 		this(0);
 	}
 
-	Dto(int id) {
+	public Dto(int id) {
 		this(id, Util.getNowDateStr());
 	}
 
-	Dto(int id, String regDate) {
+	public Dto(int id, String regDate) {
 		this.id = id;
 		this.regDate = regDate;
 	}

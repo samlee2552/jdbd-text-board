@@ -1,9 +1,16 @@
+package com.sbs.example.demo.controller;
+
 import java.util.List;
 
-class ArticleController extends Controller {
+import com.sbs.example.demo.dto.Article;
+import com.sbs.example.demo.dto.Board;
+import com.sbs.example.demo.factory.Factory;
+import com.sbs.example.demo.service.ArticleService;
+
+public class ArticleController extends Controller {
 	private ArticleService articleService;
 
-	ArticleController() {
+	public ArticleController() {
 		articleService = Factory.getArticleService();
 	}
 

@@ -1,6 +1,8 @@
+package com.sbs.example.demo.dto;
+
 import java.util.Map;
 
-class Board extends Dto {
+public class Board extends Dto {
 	private String name;
 	private String code;
 

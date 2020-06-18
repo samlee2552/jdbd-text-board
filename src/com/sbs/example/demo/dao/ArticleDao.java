@@ -1,12 +1,19 @@
+package com.sbs.example.demo.dao;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-// Dao
-class ArticleDao {
-	DBConnection dbConnection;
+import com.sbs.example.demo.db.DBConnection;
+import com.sbs.example.demo.dto.Article;
+import com.sbs.example.demo.dto.Board;
+import com.sbs.example.demo.factory.Factory;
 
-	ArticleDao() {
+// Dao
+public class ArticleDao {
+	private DBConnection dbConnection;
+
+	public ArticleDao() {
 		dbConnection = Factory.getDBConnection();
 	}
 

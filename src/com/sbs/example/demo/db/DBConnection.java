@@ -1,3 +1,5 @@
+package com.sbs.example.demo.db;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -10,7 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-class DBConnection {
+public class DBConnection {
 	private Connection connection;
 	public static String DB_NAME;
 	public static String DB_USER;

@@ -1,10 +1,17 @@
+package com.sbs.example.demo.service;
+
 import java.util.List;
 
-// Service
-class BuildService {
-	ArticleService articleService;
+import com.sbs.example.demo.dto.Article;
+import com.sbs.example.demo.dto.Board;
+import com.sbs.example.demo.factory.Factory;
+import com.sbs.example.demo.util.Util;
 
-	BuildService() {
+// Service
+public class BuildService {
+	private ArticleService articleService;
+
+	public BuildService() {
 		articleService = Factory.getArticleService();
 	}
 
