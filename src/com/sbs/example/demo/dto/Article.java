@@ -61,8 +61,9 @@ public class Article extends Dto {
 
 	@Override
 	public String toString() {
-		return "Article [boardId=" + boardId + ", memberId=" + memberId + ", title=" + title + ", body=" + body
-				+ ", getId()=" + getId() + ", getRegDate()=" + getRegDate() + "]";
+		return String.format(
+				"boardId : %d, memberId : %d\ntitle : %s, body : %s\nid : %d, RegDate : %s",
+				boardId, memberId, title, body, getId(), getRegDate());
 	}
 
 }

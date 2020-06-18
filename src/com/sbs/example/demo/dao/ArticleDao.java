@@ -132,4 +132,38 @@ public class ArticleDao {
 		return articles;
 	}
 
+	public void delete(int id) {
+		String sql = "DELETE FROM article WHERE id = " + id + ";";
+		
+		dbConnection.delete(sql);
+		System.out.printf("%d, 번 게시물이 삭제되었습니다", id);
+	}
+
+	public void modify(int id, String title, String body) {
+		
+		String sql = "UPDATE article ";
+		sql += String.format("SET title = '%s'", title);
+		sql += String.format(", `body` = '%s'", body);
+		sql += String.format("WHERE id = %d;", id);
+		dbConnection.update(sql);
+	}
+
+	public Article getArticleById(int id) {
+		StringBuilder sb = new StringBuilder();
+
+		sb.append(String.format("SELECT * "));
+		sb.append(String.format("FROM article "));
+		sb.append(String.format("WHERE 1 "));
+		sb.append(String.format("AND id = %d ", id));
+		sb.append(String.format("ORDER BY id DESC "));
+
+		Map<String, Object> row = dbConnection.selectRow(sb.toString());
+		if(row.isEmpty()) {
+			return null;
+		}
+		Article article = new Article(row);
+		
+		return article;
+	}
+
 }

@@ -23,7 +23,51 @@ public class ArticleController extends Controller {
 			actionChangeBoard(reqeust);
 		} else if (reqeust.getActionName().equals("currentBoard")) {
 			actionCurrentBoard(reqeust);
+		} else if (reqeust.getActionName().equals("modify")) {
+			if (reqeust.getArg1() == null) {
+				System.out.println("게시물 번호를 입력해 주세요.");
+			} else {
+				int id = Integer.parseInt(reqeust.getArg1());
+				actionModify(id);
+			}
+		} else if (reqeust.getActionName().equals("delete")) {
+			if (reqeust.getArg1() == null) {
+				System.out.println("게시물 번호를 입력해 주세요.");
+			} else {
+				int id = Integer.parseInt(reqeust.getArg1());
+				actionDelete(id);
+			}
+		} else if (reqeust.getActionName().equals("detail")) {
+			if (reqeust.getArg1() == null) {
+				System.out.println("게시물 번호를 입력해 주세요.");
+			} else {
+				int id = Integer.parseInt(reqeust.getArg1());
+				actionDetail(id);
+			}
+			
 		}
+	}
+
+	private void actionDetail(int id) {
+		Article article = articleService.getArticleById(id);
+		if(article == null) {
+			System.out.println("게시물이 존재하지 않습니다");
+		} else {
+			System.out.println(article);
+		}
+	}
+
+	private void actionDelete(int id) {
+		articleService.delete(id);
+	}
+
+	private void actionModify(int id) {
+		System.out.println("==게시물 수정==");
+		System.out.print("새 제목 : ");
+		String title = Factory.getScanner().nextLine().trim();
+		System.out.print("새 내용 : ");
+		String body = Factory.getScanner().nextLine().trim();
+		articleService.modify(id, title, body);
 	}
 
 	private void actionCurrentBoard(Request reqeust) {
