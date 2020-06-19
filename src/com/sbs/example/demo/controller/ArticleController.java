@@ -107,6 +107,8 @@ public class ArticleController extends Controller {
 //		System.out.println(member.getName());
 //		String writerName = member.getName();
 		System.out.printf("번호 : %d | 작성자: %s\n제목: %s | 내용: %s\n", article.getId(), writerName, article.getTitle(), article.getBody());
+		System.out.println("== 댓글 ==");
+		System.out.printf();
 	}
 
 	private void actionDelete(Request reqeust) {
