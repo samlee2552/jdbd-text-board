@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.sbs.example.demo.dto.Article;
 import com.sbs.example.demo.dto.Board;
+
 import com.sbs.example.demo.factory.Factory;
 import com.sbs.example.demo.service.ArticleService;
 
@@ -19,49 +20,102 @@ public class ArticleController extends Controller {
 			actionList(reqeust);
 		} else if (reqeust.getActionName().equals("write")) {
 			actionWrite(reqeust);
+		} else if (reqeust.getActionName().equals("modify")) {
+			actionModify(reqeust);
+		} else if (reqeust.getActionName().equals("delete")) {
+			actionDelete(reqeust);
+		} else if (reqeust.getActionName().equals("detail")) {
+			actionDetail(reqeust);
+		} else if (reqeust.getActionName().equals("listBoard")) {
+			actionListBoard(reqeust);
 		} else if (reqeust.getActionName().equals("changeBoard")) {
 			actionChangeBoard(reqeust);
 		} else if (reqeust.getActionName().equals("currentBoard")) {
 			actionCurrentBoard(reqeust);
-		} else if (reqeust.getActionName().equals("modify")) {
-			if (reqeust.getArg1() == null) {
-				System.out.println("게시물 번호를 입력해 주세요.");
-			} else {
-				int id = Integer.parseInt(reqeust.getArg1());
-				actionModify(id);
-			}
-		} else if (reqeust.getActionName().equals("delete")) {
-			if (reqeust.getArg1() == null) {
-				System.out.println("게시물 번호를 입력해 주세요.");
-			} else {
-				int id = Integer.parseInt(reqeust.getArg1());
-				actionDelete(id);
-			}
-		} else if (reqeust.getActionName().equals("detail")) {
-			if (reqeust.getArg1() == null) {
-				System.out.println("게시물 번호를 입력해 주세요.");
-			} else {
-				int id = Integer.parseInt(reqeust.getArg1());
-				actionDetail(id);
-			}
-			
+		} else if (reqeust.getActionName().equals("makeBoard")) {
+			actionMakeBoard(reqeust);
+		} else if (reqeust.getActionName().equals("writeReply")) {
+			actionWriteReply(reqeust);
+		} else if (reqeust.getActionName().equals("modifyReply")) {
+			actionModifyReply(reqeust);
+		} else if (reqeust.getActionName().equals("deleteReply")) {
+			actionDeleteReply(reqeust);
 		}
 	}
 
-	private void actionDetail(int id) {
-		Article article = articleService.getArticleById(id);
-		if(article == null) {
-			System.out.println("게시물이 존재하지 않습니다");
+	private void actionDeleteReply(Request reqeust) {
+		int articleId = Integer.parseInt(reqeust.getArg1());
+		articleService.deleteReply(articleId);
+	}
+
+	private void actionModifyReply(Request reqeust) {
+		int articleId = Integer.parseInt(reqeust.getArg1());
+
+		System.out.printf("댓글 수정: ");
+		String newBody = Factory.getScanner().nextLine();
+		articleService.modifyReply(articleId, newBody);
+	}
+
+	private void actionWriteReply(Request reqeust) {
+		int id = Integer.parseInt(reqeust.getArg1());
+		int articleId = articleService.getArticleById(id).getId();
+		int memberId = Factory.getSession().getLoginedMember().getId();
+
+		System.out.printf("댓글 내용: ");
+		String body = Factory.getScanner().nextLine();
+		articleService.writeReply(body, memberId, articleId);
+	}
+
+	private void actionListBoard(Request reqeust) {
+		System.out.println("== 게시판 리스트 ==");
+		List<Board> boards = articleService.getBoards();
+		for (Board board : boards) {
+			System.out.printf("id: %d, name: %s, code: %s\n", board.getId(), board.getName(), board.getCode());
+		}
+	}
+
+	private void actionMakeBoard(Request reqeust) {
+		System.out.println("==게시판 생성==");
+		System.out.printf("게시판 이름: ");
+		String name = Factory.getScanner().nextLine().trim();
+		System.out.printf("게시판 코드: ");
+		String code = Factory.getScanner().nextLine().trim();
+		if (articleService.makeBoard(name, code) == -1) {
+			System.out.println("이미 사용중인 코드입니다");
 		} else {
-			System.out.println(article);
+			articleService.makeBoard(name, code);
+			System.out.printf("%s 게시판이 생성되었습니다.\n", name);
 		}
 	}
 
-	private void actionDelete(int id) {
+	private void actionDetail(Request reqeust) {
+		int id ;
+		
+		try {
+			id = Integer.parseInt(reqeust.getArg1());
+		} catch (NumberFormatException e) {
+			System.out.println("숫자를 입력해주세요");
+			return;
+		}
+		System.out.println("==게시물 상세==");
+		Article article = articleService.getArticleById(id);
+		if (article == null) {
+			System.out.println("게시물이 존재하지 않습니다");
+			return;
+		}
+		String writerName = Factory.getMemberService().getMember(article.getMemberId()).getName();
+//		System.out.println(member.getName());
+//		String writerName = member.getName();
+		System.out.printf("번호 : %d | 작성자: %s\n제목: %s | 내용: %s\n", article.getId(), writerName, article.getTitle(), article.getBody());
+	}
+
+	private void actionDelete(Request reqeust) {
+		int id = Integer.parseInt(reqeust.getArg1());
 		articleService.delete(id);
 	}
 
-	private void actionModify(int id) {
+	private void actionModify(Request reqeust) {
+		int id = Integer.parseInt(reqeust.getArg1());
 		System.out.println("==게시물 수정==");
 		System.out.print("새 제목 : ");
 		String title = Factory.getScanner().nextLine().trim();

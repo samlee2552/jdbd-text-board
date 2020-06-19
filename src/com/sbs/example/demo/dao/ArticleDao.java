@@ -6,6 +6,7 @@ import java.util.Map;
 
 import com.sbs.example.demo.db.DBConnection;
 import com.sbs.example.demo.dto.Article;
+import com.sbs.example.demo.dto.ArticleReply;
 import com.sbs.example.demo.dto.Board;
 import com.sbs.example.demo.factory.Factory;
 
@@ -164,6 +165,40 @@ public class ArticleDao {
 		Article article = new Article(row);
 		
 		return article;
+	}
+
+
+	
+
+	public void saveReply(ArticleReply reply) {
+		StringBuilder sb = new StringBuilder();
+
+		sb.append(String.format("INSERT INTO articleReply "));
+		sb.append(String.format("SET regDate = '%s' ", reply.getRegDate()));
+		sb.append(String.format(", `body` = '%s' ", reply.getBody()));
+		sb.append(String.format(", `memberId` = '%d' ", reply.getMemberId()));
+		sb.append(String.format(", `articleId` = '%d' ", reply.getArticleId()));
+
+		dbConnection.insert(sb.toString());
+	}
+
+	public void modifyReply(int articleId, String newBody) {
+		StringBuilder sb = new StringBuilder();
+
+		sb.append(String.format("UPDATE articleReply "));
+		sb.append(String.format("SET `body` = '%s' ", newBody));
+		sb.append(String.format("WHERE articleID = %d;", articleId));
+		
+		dbConnection.update(sb.toString());
+	}
+
+	public void deleteReply(int articleId) {
+		StringBuilder sb = new StringBuilder();
+
+		sb.append(String.format("DELETE FROM articleReply "));
+		sb.append(String.format("WHERE articleID = %d;", articleId));
+		
+		dbConnection.delete(sb.toString());
 	}
 
 }

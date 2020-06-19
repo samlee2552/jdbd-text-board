@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.sbs.example.demo.dao.ArticleDao;
 import com.sbs.example.demo.dto.Article;
+import com.sbs.example.demo.dto.ArticleReply;
 import com.sbs.example.demo.dto.Board;
 import com.sbs.example.demo.factory.Factory;
 
@@ -69,5 +70,19 @@ public class ArticleService {
 	public Article getArticleById(int id) {
 		return articleDao.getArticleById(id);
 	}
+	
 
+	public void writeReply(String body, int memberId, int articleId) {
+		ArticleReply reply = new ArticleReply(body, memberId, articleId);
+		articleDao.saveReply(reply);
+	}
+
+	public void modifyReply(int articleId, String newBody) {
+		articleDao.modifyReply(articleId, newBody);
+		
+	}
+
+	public void deleteReply(int articleId) {
+		articleDao.deleteReply(articleId);
+	}
 }

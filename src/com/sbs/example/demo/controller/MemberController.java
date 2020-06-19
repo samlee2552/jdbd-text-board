@@ -24,7 +24,15 @@ public class MemberController extends Controller {
 	}
 
 	private void actionJoin(Request reqeust) {
-
+		System.out.println("회원가입 진행.");
+		System.out.printf("아이디: ");
+		String loginId = Factory.getScanner().nextLine().trim();
+		System.out.printf("비밀번호: ");
+		String loginPw = Factory.getScanner().nextLine().trim();
+		System.out.printf("이름: ");
+		String name = Factory.getScanner().nextLine().trim();
+		
+		memberService.join(loginId, loginPw, name);
 	}
 
 	private void actionWhoami(Request reqeust) {

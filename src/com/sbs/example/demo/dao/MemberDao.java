@@ -31,6 +31,9 @@ public class MemberDao {
 	}
 
 	public Member getMemberByLoginId(String loginId) {
+		
+		
+		
 		StringBuilder sb = new StringBuilder();
 
 		sb.append(String.format("SELECT * "));

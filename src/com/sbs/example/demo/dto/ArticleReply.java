@@ -1,12 +1,16 @@
 package com.sbs.example.demo.dto;
 
 public class ArticleReply extends Dto {
-	private int id;
-	private String regDate;
 	private int articleId;
 	private int memberId;
 	private String body;
 
+	public ArticleReply(String body, int memberId, int articleId) {
+		this.body = body;
+		this.memberId = memberId;
+		this.articleId = articleId;
+	}
+	
 	public ArticleReply() {
 
 	}
